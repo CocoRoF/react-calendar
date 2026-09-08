@@ -4,6 +4,15 @@ Date, date-range and date-time pickers for React. No date library, no calendar l
 CSS framework — a 22 kB ESM bundle (5.9 kB gzipped) drawn on native `Date` and themed with
 CSS variables.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/CocoRoF/react-calendar/main/docs/range.png" alt="Range calendar: quick presets on the left, two months, the selected span connected between the start and end days" width="720">
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/CocoRoF/react-calendar/main/docs/datetime.png" alt="Date-time picker in dark mode: calendar with hour and minute columns beside it" width="420">
+  <img src="https://raw.githubusercontent.com/CocoRoF/react-calendar/main/docs/single-en.png" alt="Single-date calendar in English" width="290">
+</p>
+
 ```bash
 npm i @cocorof/react-calendar
 ```
