@@ -1,0 +1,53 @@
+{
+  "name": "@cocorof/react-calendar",
+  "version": "0.1.0",
+  "description": "Dependency-free React date, date-range and date-time pickers — native Date, hover range preview, quick presets, keyboard support, themable with CSS variables",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": ["**/*.css"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
+    "test": "vitest run",
+    "dev": "vite"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "jsdom": "^25.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0",
+    "vite-plugin-dts": "^4.2.1",
+    "vitest": "^2.1.1"
+  },
+  "keywords": ["react", "calendar", "date-picker", "date-range", "datetime", "datepicker", "range", "presets", "no-dependencies", "typescript"],
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/CocoRoF/react-calendar.git" },
+  "homepage": "https://github.com/CocoRoF/react-calendar#readme",
+  "bugs": { "url": "https://github.com/CocoRoF/react-calendar/issues" },
+  "author": "CocoRoF",
+  "publishConfig": { "access": "public" }
+}

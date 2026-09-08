@@ -1,0 +1,222 @@
+/**
+ * @cocorof/react-calendar — one stylesheet, themed with CSS variables.
+ *
+ * Import once:  import "@cocorof/react-calendar/styles.css";
+ * Retheme by overriding the variables on any ancestor (or on .rcal itself):
+ *   .rcal { --rcal-accent: #176fd6; --rcal-radius: 12px; }
+ * Dark mode follows `prefers-color-scheme` and `[data-theme="dark"]`, and can be forced
+ * per instance with `.rcal-dark`.
+ */
+
+.rcal,
+.rcal-popover {
+  --rcal-bg: #ffffff;
+  --rcal-fg: #1f2430;
+  --rcal-muted: #6b7280;
+  --rcal-faint: #b6bcc8;
+  --rcal-border: #e3e6ec;
+  --rcal-hover: #f1f5fb;
+  --rcal-accent: #2f7ae5;
+  --rcal-accent-fg: #ffffff;
+  --rcal-accent-soft: #e6f0fd;
+  --rcal-sat: #3b82f6;
+  --rcal-sun: #ef4444;
+  --rcal-radius: 12px;
+  --rcal-cell: 36px;
+  --rcal-font: inherit;
+  --rcal-shadow: 0 10px 30px -12px rgb(15 23 42 / 0.35);
+}
+
+@media (prefers-color-scheme: dark) {
+  .rcal:not(.rcal-light),
+  .rcal-popover:not(.rcal-light) {
+    --rcal-bg: #12151c;
+    --rcal-fg: #e8eaf0;
+    --rcal-muted: #98a1b2;
+    --rcal-faint: #4b5364;
+    --rcal-border: #262b36;
+    --rcal-hover: #1b2130;
+    --rcal-accent: #4a90f7;
+    --rcal-accent-fg: #06192f;
+    --rcal-accent-soft: #16243c;
+    --rcal-sat: #60a5fa;
+    --rcal-sun: #f87171;
+    --rcal-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.6);
+  }
+}
+
+[data-theme="dark"] .rcal, [data-theme="dark"] .rcal-popover, .rcal-dark, .rcal-popover.rcal-dark {
+  --rcal-bg: #12151c;
+  --rcal-fg: #e8eaf0;
+  --rcal-muted: #98a1b2;
+  --rcal-faint: #4b5364;
+  --rcal-border: #262b36;
+  --rcal-hover: #1b2130;
+  --rcal-accent: #4a90f7;
+  --rcal-accent-fg: #06192f;
+  --rcal-accent-soft: #16243c;
+  --rcal-sat: #60a5fa;
+  --rcal-sun: #f87171;
+  --rcal-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.6);
+}
+
+/* ── panel ─────────────────────────────────────────────────── */
+
+.rcal {
+  display: flex;
+  gap: 12px;
+  font-family: var(--rcal-font);
+  color: var(--rcal-fg);
+  box-sizing: border-box;
+}
+.rcal *, .rcal *::before, .rcal *::after { box-sizing: border-box; }
+
+.rcal-presets {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 96px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--rcal-border);
+  padding-right: 8px;
+}
+.rcal-preset {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--rcal-muted);
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color .12s, color .12s;
+}
+.rcal-preset:hover { background: var(--rcal-hover); color: var(--rcal-accent); }
+.rcal-preset:focus-visible { outline: 2px solid var(--rcal-accent); outline-offset: 1px; }
+
+.rcal-body { min-width: 0; }
+.rcal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.rcal-nav-btn {
+  appearance: none; border: 0; background: transparent; color: var(--rcal-muted);
+  height: 28px; width: 28px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background-color .12s, color .12s;
+}
+.rcal-nav-btn:hover { background: var(--rcal-hover); color: var(--rcal-accent); }
+.rcal-nav-btn:focus-visible { outline: 2px solid var(--rcal-accent); outline-offset: 1px; }
+.rcal-month-labels { display: flex; flex: 1; align-items: center; justify-content: space-around; }
+.rcal-month-label { font-size: 13px; font-weight: 600; }
+
+.rcal-months { display: flex; gap: 16px; }
+.rcal-months:focus { outline: none; }
+.rcal-weekdays, .rcal-grid { display: grid; grid-template-columns: repeat(7, var(--rcal-cell)); }
+.rcal-weekday {
+  height: 28px; display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 500; color: var(--rcal-muted);
+}
+.rcal-weekday.rcal-sun { color: var(--rcal-sun); }
+.rcal-weekday.rcal-sat { color: var(--rcal-sat); }
+
+.rcal-cell { position: relative; height: var(--rcal-cell); width: var(--rcal-cell); display: flex; align-items: center; justify-content: center; }
+.rcal-cell.rcal-in-range { background: var(--rcal-accent-soft); }
+/* the connecting bar stops halfway under the edge days, so a range reads as one shape */
+.rcal-cell.rcal-range-start { background: linear-gradient(to right, transparent 50%, var(--rcal-accent-soft) 50%); }
+.rcal-cell.rcal-range-end { background: linear-gradient(to left, transparent 50%, var(--rcal-accent-soft) 50%); }
+
+.rcal-day {
+  position: relative; z-index: 1;
+  appearance: none; border: 0; background: transparent; font: inherit;
+  height: calc(var(--rcal-cell) - 4px); width: calc(var(--rcal-cell) - 4px);
+  border-radius: 999px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 13px; font-variant-numeric: tabular-nums; color: var(--rcal-fg);
+  cursor: pointer; transition: background-color .12s, color .12s;
+}
+.rcal-day:hover:not(.rcal-disabled):not(.rcal-selected) { background: var(--rcal-hover); }
+.rcal-day:focus-visible { outline: 2px solid var(--rcal-accent); outline-offset: 1px; }
+.rcal-day.rcal-outside { color: var(--rcal-faint); }
+.rcal-day.rcal-disabled { color: var(--rcal-faint); cursor: not-allowed; }
+.rcal-day.rcal-sun { color: var(--rcal-sun); }
+.rcal-day.rcal-sat { color: var(--rcal-sat); }
+.rcal-day.rcal-today { box-shadow: inset 0 0 0 1px var(--rcal-border); }
+.rcal-day.rcal-selected { background: var(--rcal-accent); color: var(--rcal-accent-fg); font-weight: 600; }
+.rcal-day-extra { font-size: 9px; line-height: 1; margin-top: 1px; color: var(--rcal-muted); }
+
+/* ── trigger + popover ─────────────────────────────────────── */
+
+.rcal-popover-wrap { position: relative; display: inline-block; width: 100%; }
+.rcal-trigger {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 40px; padding: 0 12px;
+  border: 1px solid var(--rcal-border); border-radius: var(--rcal-radius);
+  background: var(--rcal-bg); color: var(--rcal-fg);
+  font: inherit; font-size: 14px; cursor: pointer;
+  transition: border-color .12s, box-shadow .12s;
+}
+.rcal-trigger:hover:not(:disabled) { border-color: var(--rcal-accent); }
+.rcal-trigger:focus-visible { outline: none; border-color: var(--rcal-accent); box-shadow: 0 0 0 3px color-mix(in oklab, var(--rcal-accent) 25%, transparent); }
+.rcal-trigger:disabled { opacity: .6; cursor: not-allowed; }
+.rcal-trigger-text { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; font-variant-numeric: tabular-nums; }
+.rcal-trigger-empty .rcal-trigger-text { color: var(--rcal-muted); }
+.rcal-trigger-icon { flex: none; color: var(--rcal-muted); }
+
+.rcal-popover {
+  position: absolute; z-index: 50;
+  background: var(--rcal-bg); color: var(--rcal-fg);
+  border: 1px solid var(--rcal-border); border-radius: var(--rcal-radius);
+  box-shadow: var(--rcal-shadow);
+  padding: 12px;
+  width: max-content; max-width: min(92vw, 720px);
+}
+.rcal-drop-down { top: calc(100% + 6px); }
+.rcal-drop-up { bottom: calc(100% + 6px); }
+.rcal-align-start { left: 0; }
+.rcal-align-end { right: 0; }
+
+.rcal-footer {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--rcal-border);
+  font-size: 12px; color: var(--rcal-muted);
+}
+.rcal-footer-value { font-variant-numeric: tabular-nums; }
+.rcal-footer-sep { margin: 0 6px; color: var(--rcal-faint); }
+.rcal-footer-actions { display: inline-flex; gap: 6px; }
+.rcal-footer-btn {
+  appearance: none; border: 0; background: transparent; font: inherit; font-size: 12px;
+  color: var(--rcal-muted); padding: 5px 10px; border-radius: 8px; cursor: pointer;
+}
+.rcal-footer-btn:hover { background: var(--rcal-hover); color: var(--rcal-fg); }
+.rcal-footer-btn:disabled { opacity: .5; cursor: not-allowed; }
+.rcal-footer-primary { background: var(--rcal-accent); color: var(--rcal-accent-fg); }
+.rcal-footer-primary:hover:not(:disabled) { background: var(--rcal-accent); color: var(--rcal-accent-fg); filter: brightness(1.05); }
+
+/* ── date + time ───────────────────────────────────────────── */
+
+.rcal-datetime { display: flex; gap: 12px; align-items: stretch; }
+.rcal-time { display: flex; flex-direction: column; min-width: 128px; border-left: 1px solid var(--rcal-border); padding-left: 12px; }
+.rcal-time-head { font-size: 12px; font-weight: 600; color: var(--rcal-muted); margin-bottom: 6px; }
+.rcal-time-cols { display: flex; gap: 8px; flex: 1; min-height: 0; }
+.rcal-time-col { display: flex; flex-direction: column; gap: 2px; overflow-y: auto; max-height: 232px; scrollbar-width: thin; padding-right: 2px; }
+.rcal-time-item {
+  appearance: none; border: 0; background: transparent; font: inherit; font-size: 13px;
+  font-variant-numeric: tabular-nums; color: var(--rcal-fg);
+  padding: 6px 12px; border-radius: 8px; cursor: pointer; transition: background-color .12s, color .12s;
+}
+.rcal-time-item:hover { background: var(--rcal-hover); }
+.rcal-time-item:focus-visible { outline: 2px solid var(--rcal-accent); outline-offset: 1px; }
+.rcal-time-selected { background: var(--rcal-accent); color: var(--rcal-accent-fg); font-weight: 600; }
+
+/* ── narrow screens ────────────────────────────────────────── */
+
+@media (max-width: 560px) {
+  .rcal { flex-direction: column; }
+  .rcal-presets { flex-direction: row; flex-wrap: wrap; width: auto; border-right: 0; border-bottom: 1px solid var(--rcal-border); padding: 0 0 8px; }
+  .rcal-months { flex-direction: column; gap: 12px; }
+  .rcal-datetime { flex-direction: column; }
+  .rcal-time { border-left: 0; border-top: 1px solid var(--rcal-border); padding-left: 0; padding-top: 10px; }
+  .rcal-time-col { max-height: 148px; flex: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rcal *, .rcal-popover * { transition: none !important; }
+}
