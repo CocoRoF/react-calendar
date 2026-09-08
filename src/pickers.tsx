@@ -10,6 +10,8 @@ import { type CalendarLocale, type LocaleName, resolveLocale } from "./locale";
 type Shared = Pick<CalendarProps, "minDate" | "maxDate" | "isDayDisabled" | "numberOfMonths" | "showPresets" | "presets" | "weekStartsOn" | "today" | "renderDay">;
 
 interface TriggerBits {
+  /** Extra class for the portalled popover panel (theme class, width overrides). */
+  panelClassName?: string;
   disabled?: boolean;
   placeholder?: string;
   className?: string;
@@ -66,7 +68,7 @@ export function DatePicker({ value, onChange, format, ...rest }: DatePickerProps
   const [open, setOpen] = useState(false);
   const text = value ? (format ?? L.formatDate)(value) : (rest.placeholder ?? L.labels.selectDate);
   return (
-    <Popover open={open} onOpenChange={(o) => !rest.disabled && setOpen(o)}
+    <Popover open={open} onOpenChange={(o) => !rest.disabled && setOpen(o)} panelClassName={rest.panelClassName}
       trigger={<Trigger text={text} empty={!value} onClick={() => !rest.disabled && setOpen((o) => !o)} bits={rest} />}>
       <Calendar
         mode="single" from={value} to={value} autoFocus
@@ -105,7 +107,7 @@ export function DateRangePicker({ value, onChange, format, ...rest }: DateRangeP
   const text = !from && !to ? (rest.placeholder ?? L.labels.selectRange) : `${from ? fmt(from) : L.labels.start} ~ ${to ? fmt(to) : L.labels.end}`;
 
   return (
-    <Popover open={open} onOpenChange={(o) => !rest.disabled && setOpen(o)}
+    <Popover open={open} onOpenChange={(o) => !rest.disabled && setOpen(o)} panelClassName={rest.panelClassName}
       trigger={<Trigger text={text} empty={!from && !to} onClick={() => !rest.disabled && setOpen((o) => !o)} bits={rest} />}>
       <Calendar
         mode="range" from={draft[0]} to={draft[1]} autoFocus
@@ -166,7 +168,7 @@ export function DateTimePicker({
   };
 
   return (
-    <Popover open={open} onOpenChange={(o) => !rest.disabled && setOpen(o)}
+    <Popover open={open} onOpenChange={(o) => !rest.disabled && setOpen(o)} panelClassName={rest.panelClassName}
       trigger={<Trigger text={text} empty={!value} onClick={() => !rest.disabled && setOpen((o) => !o)} bits={rest} />}>
       <div className="rcal-datetime">
         <Calendar

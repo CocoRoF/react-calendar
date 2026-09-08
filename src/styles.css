@@ -161,17 +161,15 @@
 .rcal-trigger-icon { flex: none; color: var(--rcal-muted); }
 
 .rcal-popover {
-  position: absolute; z-index: 50;
+  /* portalled to <body>: fixed to the viewport, positioned by the component */
+  position: fixed; z-index: 1000;
+  overflow: auto; overscroll-behavior: contain;
   background: var(--rcal-bg); color: var(--rcal-fg);
   border: 1px solid var(--rcal-border); border-radius: var(--rcal-radius);
   box-shadow: var(--rcal-shadow);
   padding: 12px;
   width: max-content; max-width: min(92vw, 720px);
 }
-.rcal-drop-down { top: calc(100% + 6px); }
-.rcal-drop-up { bottom: calc(100% + 6px); }
-.rcal-align-start { left: 0; }
-.rcal-align-end { right: 0; }
 
 .rcal-footer {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;

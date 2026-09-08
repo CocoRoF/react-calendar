@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Calendar } from "./calendar";
-import { DateRangePicker, DateTimePicker } from "./pickers";
+import { DatePicker, DateRangePicker, DateTimePicker } from "./pickers";
 import { parseISO, toISODate, toISODateTime } from "./date-utils";
 
 const TODAY = new Date(2026, 8, 8); // 2026-09-08, a Tuesday
@@ -125,5 +125,32 @@ describe("parseISO", () => {
     expect(toISODate(parseISO("2026-09-08"))).toBe("2026-09-08");
     expect(toISODateTime(parseISO("2026-09-08T23:30"))).toBe("2026-09-08T23:30");
     expect(parseISO("")).toBeNull();
+  });
+});
+
+describe("popover placement", () => {
+  it("renders in a portal so a clipping parent cannot cut it off", async () => {
+    const u = userEvent.setup();
+    const { container } = render(
+      <div style={{ overflow: "hidden", height: 40 }}>
+        <DateTimePicker value={null} onChange={() => {}} today={TODAY} />
+      </div>,
+    );
+    await u.click(screen.getByRole("button", { name: "날짜 선택" }));
+    const dialog = screen.getByRole("dialog");
+    expect(container.contains(dialog)).toBe(false);      // escaped the overflow:hidden box
+    expect(document.body.contains(dialog)).toBe(true);
+  });
+
+  it("closes on Escape and on an outside click", async () => {
+    const u = userEvent.setup();
+    render(<><DatePicker value={null} onChange={() => {}} today={TODAY} /><button type="button">outside</button></>);
+    await u.click(screen.getByRole("button", { name: "날짜 선택" }));
+    expect(screen.getByRole("dialog")).toBeTruthy();
+    await u.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog")).toBeNull();
+    await u.click(screen.getByRole("button", { name: "날짜 선택" }));
+    await u.click(screen.getByRole("button", { name: "outside" }));
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 });

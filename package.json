@@ -1,12 +1,14 @@
 {
   "name": "@cocorof/react-calendar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Dependency-free React date, date-range and date-time pickers — native Date, hover range preview, quick presets, keyboard support, themable with CSS variables",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "sideEffects": ["**/*.css"],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -17,7 +19,11 @@
     "./styles.css": "./dist/styles.css",
     "./package.json": "./package.json"
   },
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
@@ -43,11 +49,29 @@
     "vite-plugin-dts": "^4.2.1",
     "vitest": "^2.1.1"
   },
-  "keywords": ["react", "calendar", "date-picker", "date-range", "datetime", "datepicker", "range", "presets", "no-dependencies", "typescript"],
+  "keywords": [
+    "react",
+    "calendar",
+    "date-picker",
+    "date-range",
+    "datetime",
+    "datepicker",
+    "range",
+    "presets",
+    "no-dependencies",
+    "typescript"
+  ],
   "license": "MIT",
-  "repository": { "type": "git", "url": "https://github.com/CocoRoF/react-calendar.git" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CocoRoF/react-calendar.git"
+  },
   "homepage": "https://github.com/CocoRoF/react-calendar#readme",
-  "bugs": { "url": "https://github.com/CocoRoF/react-calendar/issues" },
+  "bugs": {
+    "url": "https://github.com/CocoRoF/react-calendar/issues"
+  },
   "author": "CocoRoF",
-  "publishConfig": { "access": "public" }
+  "publishConfig": {
+    "access": "public"
+  }
 }
