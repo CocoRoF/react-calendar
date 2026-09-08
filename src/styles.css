@@ -8,12 +8,15 @@
  * per instance with `.rcal-dark`.
  */
 
-/* The palette lives on a calendar root (.rcal) or a portalled panel (.rcal-popover).
+/* The palette lives on a calendar root (.rcal), a portalled panel (.rcal-popover) and the
+ * trigger's wrapper (.rcal-popover-wrap) — the trigger is a sibling of the panel, so
+ * without the wrapper its var(--rcal-*) resolve to nothing and it renders unstyled.
  * Both selectors also match a .rcal *inside* a panel, so every dark rule has to cover
  * descendants too — otherwise the inner calendar quietly resets itself to the light
  * palette and renders near-black days on a dark panel. */
 .rcal,
-.rcal-popover {
+.rcal-popover,
+.rcal-popover-wrap {
   --rcal-bg: #ffffff;
   --rcal-fg: #1f2430;
   --rcal-muted: #6b7280;
@@ -32,7 +35,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :where(.rcal, .rcal-popover):not(.rcal-light):not(.rcal-light *) {
+  :where(.rcal, .rcal-popover, .rcal-popover-wrap):not(.rcal-light):not(.rcal-light *) {
     --rcal-bg: #12151c;
     --rcal-fg: #e8eaf0;
     --rcal-muted: #98a1b2;
@@ -48,9 +51,9 @@
   }
 }
 
-[data-theme="dark"] :where(.rcal, .rcal-popover):not(.rcal-light):not(.rcal-light *),
-:where(.rcal, .rcal-popover).rcal-dark,
-.rcal-dark :where(.rcal, .rcal-popover) {
+[data-theme="dark"] :where(.rcal, .rcal-popover, .rcal-popover-wrap):not(.rcal-light):not(.rcal-light *),
+:where(.rcal, .rcal-popover, .rcal-popover-wrap).rcal-dark,
+.rcal-dark :where(.rcal, .rcal-popover, .rcal-popover-wrap) {
   --rcal-bg: #12151c;
   --rcal-fg: #e8eaf0;
   --rcal-muted: #98a1b2;
@@ -66,8 +69,8 @@
 }
 
 /* An app that pins light must pin it for the nested calendar as well. */
-:where(.rcal, .rcal-popover).rcal-light,
-.rcal-light :where(.rcal, .rcal-popover) {
+:where(.rcal, .rcal-popover, .rcal-popover-wrap).rcal-light,
+.rcal-light :where(.rcal, .rcal-popover, .rcal-popover-wrap) {
   --rcal-bg: #ffffff;
   --rcal-fg: #1f2430;
   --rcal-muted: #6b7280;
