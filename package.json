@@ -61,7 +61,7 @@
     "no-dependencies",
     "typescript"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/CocoRoF/react-calendar.git"
